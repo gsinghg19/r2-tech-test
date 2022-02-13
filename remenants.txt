@@ -1,0 +1,5 @@
+---api.js---
+
+apiRouter.get("/", (getEndPoints, res) => {
+  res.json({ message: "it is working on api.js file, line 6" });
+});

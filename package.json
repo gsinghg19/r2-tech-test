@@ -1,11 +1,19 @@
 {
   "name": "r2-tech-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "## Prerequisites",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "dev": "npx nodemon listen.js"
+    "setup-dbs": "psql -f ./data/setup.sql",
+    "seed": "node ./data/seeds/run-seed.js",
+    "test": "psql -f ./data/setup.sql && node ./data/seeds/run-seed.js  && jest",
+    "dev": "npx nodemon listen.js",
+    "start": "node server.js"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-sorted"
+    ]
   },
   "repository": {
     "type": "git",
@@ -19,11 +27,20 @@
   },
   "homepage": "https://github.com/northcoders/r2-tech-test#readme",
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
     "express": "^4.17.2",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "pg": "^8.7.3",
+    "pg-format": "^1.0.4"
   },
   "devDependencies": {
     "jest": "^27.5.1",
+    "jest-sorted": "^1.0.14",
+    "nodemon": "^2.0.15",
     "supertest": "^6.2.2"
+  },
+  "directories": {
+    "test": "test"
   }
 }
