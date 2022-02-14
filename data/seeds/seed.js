@@ -10,7 +10,7 @@ const seed = (data) => {
       recipeid VARCHAR(100) NULL,
       instructions VARCHAR(500) NULL,
       imageurl VARCHAR (200) NULL,
-      ingredients VARCHAR (200) NULL
+      ingredients VARCHAR (1000) NULL
     )`);
     })
     .then(() => {

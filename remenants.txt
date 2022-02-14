@@ -3,3 +3,14 @@
 apiRouter.get("/", (getEndPoints, res) => {
   res.json({ message: "it is working on api.js file, line 6" });
 });
+--------
+
+recipes.models.js------
+  // const recipeStr = 'recipe-59';
+  // const splitStr = recipeStr.split('-');
+  // console.log(splitStr);
+  // let recipeSplitStr = splitStr[1];
+  // console.log(recipeSplitStr);
+  // const newRecipeIdNumber = parseInt(recipeSplitStr, 10);
+  // console.log(newRecipeIdNumber);
+  --------

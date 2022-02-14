@@ -2,12 +2,6 @@ const res = require('express/lib/response');
 const { query } = require('../data/connection');
 const db = require('../data/connection');
 
-const {
-  checkSortByExists,
-  checkOrderExists,
-  dbSearch,
-} = require('../utils/utils');
-
 exports.fetchAllRecipes = async (reqQueries = []) => {
   const selectString = `SELECT * FROM recipes WHERE 1=1`;
   let andString = '';
@@ -27,12 +21,19 @@ exports.fetchAllRecipes = async (reqQueries = []) => {
 
 exports.insertNewRecipe = async (newRecipe) => {
   const { imageurl, instructions, ingredients } = newRecipe;
-  
-  console.log('line------------------------------------');
 
   const result = await db.query(
     `INSERT INTO recipes(recipeid, imageurl, instructions, ingredients) VALUES (uuid_in(md5(random()::text || clock_timestamp()::text)::cstring), $1, $2, $3) RETURNING*;`,
     [imageurl, instructions, ingredients]
   );
+
+  return result.rows;
+};
+
+exports.fetchSingleRecipeById = async (recipeId) => {
+  const result = await db.query(`SELECT * FROM recipes where recipeid = $1`, [
+    recipeId,
+  ]);
+
   return result.rows;
 };

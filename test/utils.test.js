@@ -1,4 +1,4 @@
-const { formatRecipeData } = require('../utils/utils');
+const { formatRecipeData, formatSingleRecipeData } = require('../utils/utils');
 
 describe('formatRecipeData', () => {
   test('returns an empty array with no data', () => {
@@ -7,7 +7,7 @@ describe('formatRecipeData', () => {
     expect(formatRecipeData(recipeData)).toEqual(expectedFormattedData);
   });
 
-  test('returns a nested array with the props of; (id, instructions, imageUrl, ingredients)', () => {
+  test('returns a nested array with the properties of; (id, instructions, imageUrl, ingredients)', () => {
     const recipeData = [
       {
         id: 'recipe-59',
@@ -32,5 +32,41 @@ describe('formatRecipeData', () => {
       ],
     ];
     expect(formatRecipeData(recipeData)).toEqual(expectedFormattedData);
+  });
+});
+
+describe('formatSingeRecipeData', () => {
+  test('returns an empty array with no data', () => {
+    const singleRecipeData = [];
+    const expectedSingleFormattedRecipeData = {};
+    expect(formatSingleRecipeData(singleRecipeData)).toEqual(
+      expectedSingleFormattedRecipeData
+    );
+  });
+
+  test('returns a single object with the properties of; (instructions, imageUrl and ingredients)', () => {
+    const singleRecipeData = {
+      instructions:
+        '60 seconds on the highest setting your blender has, or until a smooth paste has formed',
+      imageurl: 'http://www.images.com/18',
+      ingredients: [
+        { name: 'demerara sugar', grams: 25 },
+        { name: 'flax', grams: 66 },
+        { name: 'apple juice', grams: 44 },
+        { name: 'oat milk', grams: 198 },
+      ],
+    };
+
+    const expectedSingleRecipeData = {
+      instructions:
+        '60 seconds on the highest setting your blender has, or until a smooth paste has formed',
+      imageurl: 'http://www.images.com/18',
+      ingredients:
+        '[{"name":"demerara sugar","grams":25},{"name":"flax","grams":66},{"name":"apple juice","grams":44},{"name":"oat milk","grams":198}]',
+    };
+
+    expect(formatSingleRecipeData(singleRecipeData)).toEqual(
+      expectedSingleRecipeData
+    );
   });
 });

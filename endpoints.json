@@ -1,0 +1,33 @@
+{
+  "GET /api/recipes": {
+    "description": "serves an array of recipes",
+    "queries": ["exclude"],
+    "exampleResponse": {
+      "formattedRecipes": [
+        {
+          "recipeId": "recipe-59",
+          "instructions": "60 seconds on the highest setting your blender has, or until a smooth paste has formed",
+          "imageurl": "http://www.images.com/18",
+          "ingredients": [
+            {
+              "name": "demerara sugar",
+              "grams": 25
+            },
+            {
+              "name": "flax",
+              "grams": 66
+            },
+            {
+              "name": "apple juice",
+              "grams": 44
+            },
+            {
+              "name": "oat milk",
+              "grams": 198
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

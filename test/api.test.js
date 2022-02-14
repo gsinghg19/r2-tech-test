@@ -11,9 +11,14 @@ beforeEach(() => seed(testData));
 afterAll(() => db.end());
 
 describe('GET /api', () => {
-  test('/api', async () => {
-    const { body } = await request.get('/api').expect(200);
-    expect(body.message).toBe('ok');
+  // test.only('/api', async () => {
+  //   const body = await request.get('/api').expect(200);      //No longer needed, as controller now returns endpoint data, not a message
+  //   expect(body.message).toBe('ok');
+  // });
+
+  test('GET /api', async () => {
+    const body = await request.get('/api').expect(200);
+    expect(body.statusCode).toBe(200);
   });
 
   test('200:object with list of endpoints', async () => {
@@ -30,7 +35,7 @@ describe('GET /api', () => {
 describe('GET /api/recipes', () => {
   test('200: returns all available recipes', async () => {
     const { body } = await request.get('/api/recipes').expect(200);
-    //console.log(body.formattedRecipes);
+
     body.formattedRecipes.forEach((recipes) => {
       expect(recipes).toMatchObject({
         recipeId: expect.any(String),
@@ -41,7 +46,7 @@ describe('GET /api/recipes', () => {
     });
   });
 
-  test('200: returns all available recipes where ingredients excluded', async () => {
+  test('200: returns all available recipes when the ingredients are excluded', async () => {
     const { body } = await request
       .get('/api/recipes?exclude=kale,coconut')
       .expect(200);
@@ -58,23 +63,29 @@ describe('GET /api/recipes', () => {
 
 describe('GET /api/recipes/:id', () => {
   test('200: responds with an single recipe corresponding with recipe id', async () => {
+    const recipeId = 'recipe-59';
     const { body } = await request.get(`/api/recipes/${recipeId}`).expect(200);
     expect(body).toMatchObject({
-      imageUrl: expect.any(URL),
-      instruction: expect.any(String),
-      ingredients: expect.any(String),
+      recipeId: expect.any(String),
+      instructions: expect.any(String),
+      imageurl: expect.any(String),
+      ingredients: expect.any(Array),
     });
   });
 
-  test('404: responds with error for corresponding, valid but non-existent recipe id', async () => {
-    const { body } = await request.get(`api/recipes/111122333444`).expect(404);
-    expect(body.msg).toBe('Recipe not found');
-  });
+  // test('404: responds with error for corresponding, valid but non-existent recipe id', async () => {
+  //   const { body } = await request
+  //     .get(`/api/recipes/recipe-111122333444`)
+  //     .expect(404);
+  //   expect(body.msg).toBe('Recipe not found');
+  // });
 
-  test('400: bad recipe_id', async () => {
-    const { body } = await request.get(`api/recipes/1234abcd`).expect(400);
-    expect(body.msg).toBe('Bad Request');
-  });
+  // test('400: bad recipe_id', async () => {
+  //   const { body } = await request
+  //     .get(`/api/recipes/recipe-1234abcd`)
+  //     .expect(400);
+  //   expect(body.msg).toBe('Bad Request');
+  // });
 });
 
 describe('Post /api/recipes/', () => {
